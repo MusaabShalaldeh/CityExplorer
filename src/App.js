@@ -3,9 +3,11 @@ import axios from "axios";
 import Header from "./assets/components/header.js";
 import Footer from "./assets/components/footer.js";
 import FailMessage from "./assets/components/failmessage.js";
-import { Form, Button, Image, Card, Row, Col } from "react-bootstrap";
+import Weather from "./assets/components/weather.js";
+import { Form, Button, Image, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MapImage from "./assets/images/mapplaceholder.jpg";
+import './App.css';
 
 class App extends React.Component {
   constructor() {
@@ -15,6 +17,7 @@ class App extends React.Component {
       locationName: "",
       lon: "",
       lat: "",
+      weatherData: [],
       locImg: MapImage,
       show: false,
       errorMsg: "",
@@ -28,11 +31,14 @@ class App extends React.Component {
 
     try {
       let result = await axios.get(url);
-      console.log(result.data[0]);
+      // console.log(result.data[0]);
       this.setState({
         locationName: locName,
         lon: result.data[0].lon,
         lat: result.data[0].lat,
+        weatherData: await axios.get(
+          `https://ms-city-explorer-api.herokuapp.com/weather?cityName=${locName}&lat=${result.data[0].lat}&lon=${result.data[0].lon}`
+        ),
       });
       const img = `https://maps.locationiq.com/v3/staticmap?key=${myKey}&center=${this.state.lat},${this.state.lon}`;
       this.setState({
@@ -58,6 +64,7 @@ class App extends React.Component {
   };
 
   render() {
+    // console.log(this.state.weatherData.data);
     return (
       <>
         <Header />
@@ -74,14 +81,14 @@ class App extends React.Component {
             <Card.Text>latitude: {this.state.lat}</Card.Text>
           </Card.Body>
         </Card>
-
-        <div className="text-center">
+        <div id="mapContainer">
           <Image
             class="textCenter"
             src={this.state.locImg}
             width="700"
             height="700"
           />
+          <Weather data={this.state.weatherData.data} />
         </div>
         <Form onSubmit={this.getData}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
