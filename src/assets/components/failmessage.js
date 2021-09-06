@@ -22,7 +22,7 @@ class FailMessage extends React.Component {
             {this.props.error}
           </Modal.Body>
           <Modal.Footer>
-            <Button class='textCenter' variant="secondary" onClick={this.props.hideErrorMessage}>
+            <Button variant="secondary" onClick={this.props.hideErrorMessage}>
               Close
             </Button>
             <Button variant="primary">Understood</Button>
