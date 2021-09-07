@@ -31,12 +31,12 @@ class App extends React.Component {
 
     try {
       let result = await axios.get(url);
-      // console.log(result.data[0]);
       this.setState({
         locationName: locName,
         lon: result.data[0].lon,
         lat: result.data[0].lat,
         weatherData: await axios.get(
+          // `http://localhost:3010/weather?cityName=${locName}&lat=${result.data[0].lat}&lon=${result.data[0].lon}`
           `https://ms-city-explorer-api.herokuapp.com/weather?cityName=${locName}&lat=${result.data[0].lat}&lon=${result.data[0].lon}`
         ),
       });
@@ -44,7 +44,8 @@ class App extends React.Component {
       this.setState({
         locImg: img,
       });
-    } catch (error) {
+    } 
+    catch (error) {
       this.showErrorMessage();
       this.setState({
         errorMsg: error.message,
