@@ -4,10 +4,11 @@ import Header from "./assets/components/header.js";
 import Footer from "./assets/components/footer.js";
 import FailMessage from "./assets/components/failmessage.js";
 import Weather from "./assets/components/weather.js";
+import Movie from "./assets/components/movie.js";
 import { Form, Button, Image, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MapImage from "./assets/images/mapplaceholder.jpg";
-import './App.css';
+import "./App.css";
 
 class App extends React.Component {
   constructor() {
@@ -18,6 +19,7 @@ class App extends React.Component {
       lon: "",
       lat: "",
       weatherData: [],
+      moviesData: [],
       locImg: MapImage,
       show: false,
       errorMsg: "",
@@ -39,13 +41,17 @@ class App extends React.Component {
           // `http://localhost:3010/weather?cityName=${locName}&lat=${result.data[0].lat}&lon=${result.data[0].lon}`
           `https://ms-city-explorer-api.herokuapp.com/weather?cityName=${locName}&lat=${result.data[0].lat}&lon=${result.data[0].lon}`
         ),
+        moviesData: await axios.get(
+          `https://ms-city-explorer-api.herokuapp.com/movies?search_key=${locName}`
+          // `http://localhost:3010/movies?search_key=${locName}`
+        ),
       });
       const img = `https://maps.locationiq.com/v3/staticmap?key=${myKey}&center=${this.state.lat},${this.state.lon}`;
       this.setState({
         locImg: img,
       });
-    } 
-    catch (error) {
+      console.log(this.state.moviesData);
+    } catch (error) {
       this.showErrorMessage();
       this.setState({
         errorMsg: error.message,
@@ -65,7 +71,7 @@ class App extends React.Component {
   };
 
   render() {
-    // console.log(this.state.weatherData.data);
+    console.log(this.state.moviesData.data);
     return (
       <>
         <Header />
@@ -91,6 +97,11 @@ class App extends React.Component {
           />
           <Weather data={this.state.weatherData.data} />
         </div>
+
+        
+        <Movie moviesData={this.state.moviesData.data} />
+      
+
         <Form onSubmit={this.getData}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>City Name</Form.Label>
