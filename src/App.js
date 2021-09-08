@@ -2,9 +2,11 @@ import React from "react";
 import axios from "axios";
 import Header from "./assets/components/header.js";
 import Footer from "./assets/components/footer.js";
+import Location from './assets/components/location';
+import LocationForm from './assets/components/locationForm';
 import FailMessage from "./assets/components/failmessage.js";
 import Weather from "./assets/components/weather.js";
-import Movie from "./assets/components/movie.js";
+import Movies from "./assets/components/movies.js";
 import { Form, Button, Image, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MapImage from "./assets/images/mapplaceholder.jpg";
@@ -46,6 +48,7 @@ class App extends React.Component {
           // `http://localhost:3010/movies?search_key=${locName}`
         ),
       });
+      console.log(this.state.weatherData.data);
       const img = `https://maps.locationiq.com/v3/staticmap?key=${myKey}&center=${this.state.lat},${this.state.lon}`;
       this.setState({
         locImg: img,
@@ -80,14 +83,7 @@ class App extends React.Component {
           show={this.state.show}
           error={this.state.errorMsg}
         />
-        <Card className="text-center">
-          <Card.Header>Location</Card.Header>
-          <Card.Body>
-            <Card.Title>City Name: {this.state.locationName}</Card.Title>
-            <Card.Text>Longitude: {this.state.lon}</Card.Text>
-            <Card.Text>latitude: {this.state.lat}</Card.Text>
-          </Card.Body>
-        </Card>
+        <Location locationName={this.state.locationName} lon={this.state.lon} lat={this.state.lat}/>
         <div id="mapContainer">
           <Image
             class="textCenter"
@@ -97,24 +93,11 @@ class App extends React.Component {
           />
           <Weather data={this.state.weatherData.data} />
         </div>
-
-        
-        <Movie moviesData={this.state.moviesData.data} />
       
+        <Movies moviesData={this.state.moviesData.data} />
+      
+        <LocationForm getData={this.getData}/>
 
-        <Form onSubmit={this.getData}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>City Name</Form.Label>
-            <Form.Control
-              name="locName"
-              type="text"
-              placeholder="Amman, New York etc..."
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
         <Footer />
       </>
     );
