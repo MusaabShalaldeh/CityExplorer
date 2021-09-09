@@ -6,3 +6,10 @@
   width: 100%;
   justify-content: space-evenly;
 }
+#tableContainer{
+  margin: 25px auto;
+}
+#moviesRow{
+  justify-content: space-between;
+  margin: auto 25px;
+}

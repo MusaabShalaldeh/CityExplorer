@@ -84,6 +84,7 @@ class App extends React.Component {
           error={this.state.errorMsg}
         />
         <Location locationName={this.state.locationName} lon={this.state.lon} lat={this.state.lat}/>
+        <LocationForm getData={this.getData}/>
         <div id="mapContainer">
           <Image
             class="textCenter"
@@ -91,12 +92,11 @@ class App extends React.Component {
             width="700"
             height="700"
           />
-          <Weather data={this.state.weatherData.data} />
         </div>
+          <Weather data={this.state.weatherData.data} />
       
         <Movies moviesData={this.state.moviesData.data} />
       
-        <LocationForm getData={this.getData}/>
 
         <Footer />
       </>

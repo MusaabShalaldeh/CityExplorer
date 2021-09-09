@@ -7,7 +7,7 @@ class Movies extends React.Component {
     if (this.props.moviesData) {
       return (
         <>
-          <Row class='justify-content-evenly'>
+          <Row id="moviesRow">
             {this.props.moviesData.map((item) => {
               return (
                 <Movie img_url={item.img_url} 
